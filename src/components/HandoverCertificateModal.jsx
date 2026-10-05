@@ -24,7 +24,7 @@ export default function HandoverCertificateModal({ item, isOpen, onClose, defaul
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in">
-            <div className="relative w-full max-w-xl bg-white rounded-3xl shadow-soft-xl border border-slate-200 overflow-hidden print:m-0 print:p-0 print:border-none print:shadow-none">
+            <div className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto bg-white rounded-3xl shadow-soft-xl border border-slate-200 print:m-0 print:p-0 print:border-none print:shadow-none print:max-h-none print:overflow-visible">
                 
                 {/* Header (Hidden on Print) */}
                 <div className="flex items-center justify-between p-5 border-b border-slate-100 print:hidden bg-slate-50/50">

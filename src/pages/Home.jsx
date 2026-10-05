@@ -436,8 +436,8 @@ export default function Home() {
                     </div>
 
                     {/* Category Selector Chips */}
-                    <div className="flex flex-wrap items-center gap-1.5 pt-2 border-t border-slate-100 dark:border-slate-800">
-                        <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mr-1 flex items-center gap-1">
+                    <div className="flex items-center overflow-x-auto flex-nowrap sm:flex-wrap no-scrollbar gap-1.5 pt-2 border-t border-slate-100 dark:border-slate-800 py-1">
+                        <span className="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mr-1 flex items-center gap-1 flex-shrink-0">
                             <SlidersHorizontal className="w-3 h-3" /> Category:
                         </span>
                         {CATEGORIES.map((cat) => {
@@ -448,7 +448,7 @@ export default function Home() {
                                     key={cat.value}
                                     type="button"
                                     onClick={() => setCategory(cat.value)}
-                                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold transition cursor-pointer ${
+                                    className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition cursor-pointer touch-manipulation flex-shrink-0 ${
                                         isSelected
                                             ? 'bg-indigo-600 text-white shadow-soft'
                                             : 'bg-slate-100/70 dark:bg-slate-800/70 hover:bg-slate-200/70 dark:hover:bg-slate-700/70 text-slate-600 dark:text-slate-300'

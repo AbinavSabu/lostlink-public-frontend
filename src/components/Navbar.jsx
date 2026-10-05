@@ -577,14 +577,14 @@ export default function Navbar() {
                 {mobileMenuOpen && (
                     <div className="md:hidden py-3 border-t border-slate-200/80 space-y-2 animate-in slide-in-from-top-2 duration-150">
                         {/* Mobile Quick Action Strip (QR Scanner & Theme Toggle) */}
-                        <div className="flex items-center justify-between px-3 py-1.5 bg-slate-50 dark:bg-slate-800/60 rounded-xl mb-2">
+                        <div className="flex items-center justify-between px-3 py-2 bg-slate-50 dark:bg-slate-800/60 rounded-xl mb-2">
                             <button
                                 type="button"
                                 onClick={() => {
                                     setMobileMenuOpen(false);
                                     window.dispatchEvent(new CustomEvent('open-qr-scanner'));
                                 }}
-                                className="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-200 hover:text-indigo-600"
+                                className="min-h-[44px] flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-200 hover:text-indigo-600 touch-manipulation cursor-pointer"
                             >
                                 <QrCode className="w-4 h-4 text-indigo-500" />
                                 <span>Scan QR Code</span>
@@ -593,7 +593,7 @@ export default function Navbar() {
                             <button
                                 type="button"
                                 onClick={toggleTheme}
-                                className="flex items-center gap-1.5 text-xs font-bold text-slate-700 dark:text-slate-200"
+                                className="min-h-[44px] flex items-center gap-1.5 text-xs font-bold text-slate-700 dark:text-slate-200 touch-manipulation cursor-pointer px-2"
                             >
                                 {theme === 'dark' ? (
                                     <>
@@ -612,7 +612,7 @@ export default function Navbar() {
                         <button
                             type="button"
                             onClick={handleBrowse}
-                            className={`w-full text-left block px-3 py-2.5 rounded-xl text-sm font-semibold cursor-pointer touch-manipulation transition ${
+                            className={`w-full min-h-[44px] text-left flex items-center px-3 py-3 rounded-xl text-sm font-semibold cursor-pointer touch-manipulation transition ${
                                 isActive('/') ? 'bg-indigo-50 text-indigo-600 font-bold' : 'text-slate-700 hover:bg-slate-100'
                             }`}
                         >
@@ -624,7 +624,7 @@ export default function Navbar() {
                                 <Link
                                     to="/my-items"
                                     onClick={() => setMobileMenuOpen(false)}
-                                    className={`block px-3 py-2 rounded-xl text-sm font-semibold ${
+                                    className={`min-h-[44px] flex items-center px-3 py-3 rounded-xl text-sm font-semibold touch-manipulation ${
                                         isActive('/my-items') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-700 hover:bg-slate-100'
                                     }`}
                                 >
@@ -633,14 +633,14 @@ export default function Navbar() {
                                 <Link
                                     to="/create-item"
                                     onClick={() => setMobileMenuOpen(false)}
-                                    className="block px-3 py-2 rounded-xl text-sm font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100"
+                                    className="min-h-[44px] flex items-center px-3 py-3 rounded-xl text-sm font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100 touch-manipulation"
                                 >
                                     + Report Lost or Found Item
                                 </Link>
                                 <Link
                                     to="/notifications"
                                     onClick={() => setMobileMenuOpen(false)}
-                                    className={`block px-3 py-2 rounded-xl text-sm font-semibold ${
+                                    className={`min-h-[44px] flex items-center px-3 py-3 rounded-xl text-sm font-semibold touch-manipulation ${
                                         isActive('/notifications') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-700 hover:bg-slate-100'
                                     }`}
                                 >
@@ -649,7 +649,7 @@ export default function Navbar() {
                                 <Link
                                     to="/profile"
                                     onClick={() => setMobileMenuOpen(false)}
-                                    className={`block px-3 py-2 rounded-xl text-sm font-semibold ${
+                                    className={`min-h-[44px] flex items-center px-3 py-3 rounded-xl text-sm font-semibold touch-manipulation ${
                                         isActive('/profile') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-700 hover:bg-slate-100'
                                     }`}
                                 >
@@ -660,7 +660,7 @@ export default function Navbar() {
                                     <Link
                                         to="/admin"
                                         onClick={() => setMobileMenuOpen(false)}
-                                        className="block px-3 py-2 rounded-xl text-sm font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100"
+                                        className="min-h-[44px] flex items-center px-3 py-3 rounded-xl text-sm font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100 touch-manipulation"
                                     >
                                         Moderator Dashboard
                                     </Link>
@@ -670,7 +670,7 @@ export default function Navbar() {
                                     <span>Signed in as <strong className="text-slate-800">{userEmail}</strong></span>
                                     <button
                                         onClick={handleLogout}
-                                        className="font-bold text-rose-600 hover:underline flex items-center gap-1"
+                                        className="min-h-[44px] font-bold text-rose-600 hover:underline flex items-center gap-1 touch-manipulation"
                                     >
                                         <LogOut className="w-3.5 h-3.5" /> Logout
                                     </button>
@@ -681,14 +681,14 @@ export default function Navbar() {
                                 <Link
                                     to="/login"
                                     onClick={() => setMobileMenuOpen(false)}
-                                    className="text-center py-2 text-sm font-bold text-slate-700 bg-slate-100 rounded-xl"
+                                    className="min-h-[44px] flex items-center justify-center py-3 text-sm font-bold text-slate-700 bg-slate-100 rounded-xl touch-manipulation"
                                 >
                                     Sign In
                                 </Link>
                                 <Link
                                     to="/register"
                                     onClick={() => setMobileMenuOpen(false)}
-                                    className="text-center py-2 text-sm font-bold text-white bg-indigo-600 rounded-xl"
+                                    className="min-h-[44px] flex items-center justify-center py-3 text-sm font-bold text-white bg-indigo-600 rounded-xl touch-manipulation shadow-soft"
                                 >
                                     Get Started
                                 </Link>

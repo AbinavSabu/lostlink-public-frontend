@@ -59,7 +59,7 @@ export default function EditItemModal({ item, isOpen, onClose, onUpdated }) {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in overflow-y-auto">
-            <div className="relative w-full max-w-xl bg-white rounded-3xl shadow-soft-xl border border-slate-200 overflow-hidden my-8">
+            <div className="relative w-full max-w-xl max-h-[90vh] overflow-y-auto bg-white rounded-3xl shadow-soft-xl border border-slate-200 my-8">
                 {/* Header */}
                 <div className="flex items-center justify-between p-6 border-b border-slate-100">
                     <div>

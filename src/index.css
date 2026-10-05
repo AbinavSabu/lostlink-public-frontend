@@ -18,3 +18,19 @@ body {
   background-color: #f8fafc;
   color: #0f172a;
 }
+
+/* Prevent auto-zoom on mobile inputs in iOS Safari */
+@media screen and (max-width: 767px) {
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* Utility to hide horizontal scrollbars while preserving touch scroll */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

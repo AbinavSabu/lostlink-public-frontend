@@ -16,7 +16,7 @@ export default function PrintableFlyerModal({ item, isOpen, onClose }) {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-sm animate-in fade-in overflow-y-auto">
             {/* Modal Container */}
-            <div className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden my-6">
+            <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white rounded-3xl shadow-2xl border border-slate-200 my-6 print:m-0 print:p-0 print:border-none print:shadow-none print:max-h-none print:overflow-visible">
                 
                 {/* Modal Top Bar (Hidden on Print) */}
                 <div className="flex items-center justify-between p-4 px-6 border-b border-slate-100 print:hidden bg-slate-50">
