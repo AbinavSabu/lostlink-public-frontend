@@ -1,0 +1,58 @@
+/* LostLink Custom Helper Styles */
+@layer utilities {
+  .glass-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+  }
+
+  .dark .glass-card {
+    background: rgba(30, 41, 59, 0.85);
+    border: 1px solid rgba(51, 65, 85, 0.7);
+  }
+
+  .glass-header {
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(226, 232, 240, 0.7);
+  }
+
+  .dark .glass-header {
+    background: rgba(15, 23, 42, 0.9);
+    border-bottom: 1px solid rgba(51, 65, 85, 0.8);
+  }
+
+  .mesh-gradient-bg {
+    background-color: #f8fafc;
+    background-image: 
+      radial-gradient(at 15% 15%, rgba(99, 102, 241, 0.08) 0px, transparent 50%),
+      radial-gradient(at 85% 20%, rgba(16, 185, 129, 0.07) 0px, transparent 50%),
+      radial-gradient(at 50% 85%, rgba(244, 63, 94, 0.04) 0px, transparent 50%);
+  }
+
+  .dark .mesh-gradient-bg {
+    background-color: #0f172a;
+    background-image: 
+      radial-gradient(at 15% 15%, rgba(99, 102, 241, 0.15) 0px, transparent 50%),
+      radial-gradient(at 85% 20%, rgba(16, 185, 129, 0.12) 0px, transparent 50%),
+      radial-gradient(at 50% 85%, rgba(244, 63, 94, 0.08) 0px, transparent 50%);
+  }
+
+  /* Custom scrollbar for chat and dropdowns */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 9999px;
+  }
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+  }
+}
