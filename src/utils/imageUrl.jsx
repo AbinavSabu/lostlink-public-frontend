@@ -1,18 +1,24 @@
-// src/utils/imageUrl.jsx
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
+
+export const DEFAULT_PLACEHOLDER_IMAGE =
+    "https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?auto=format&fit=crop&w=800&q=80";
 
 /**
- * Resolves relative or absolute image paths to complete backend origin URLs.
+ * Resolves relative or absolute image paths to complete backend origin URLs or placeholders.
  * Dynamically resolves against window.location.hostname to support localhost,
  * LAN IP (e.g. 192.168.x.x), or configured VITE_API_BASE_URL.
+ * If path is missing, returns DEFAULT_PLACEHOLDER_IMAGE.
  */
-export const getImageUrl = (path) => {
-    if (!path) return null;
-    if (path.startsWith('http://') || path.startsWith('https://')) {
-        return path;
+export const getImageUrl = (path, fallback = DEFAULT_PLACEHOLDER_IMAGE) => {
+    if (!path || typeof path !== 'string' || !path.trim()) {
+        return fallback;
+    }
+    const trimmed = path.trim();
+    if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+        return trimmed;
     }
     // Normalize Windows backslashes to forward slashes
-    const cleanPath = path.replace(/\\/g, '/');
+    const cleanPath = trimmed.replace(/\\/g, '/');
     const host = typeof window !== 'undefined' && window.location.hostname ? window.location.hostname : 'localhost';
     const rawBase = import.meta.env.VITE_API_BASE_URL ||
         (import.meta.env.VITE_API_URL ? import.meta.env.VITE_API_URL.replace(/\/api\/?$/, '') : `http://${host}:8081`);
@@ -23,15 +29,28 @@ export const getImageUrl = (path) => {
 /**
  * Global onError handler for <img> elements.
  * Automatically retries loading the image after a short delay (1.8s) with a cache-busting
- * timestamp query param (_t=...) to recover if Spring Boot was still starting up.
- * If the image still fails after retries, it hides the image and displays any sibling fallback element.
+ * timestamp query param (_t=...).
+ * If the image still fails after retries, it switches src to DEFAULT_PLACEHOLDER_IMAGE,
+ * or hides the image and displays any sibling fallback element.
  */
 export const handleImageError = (e, options = {}) => {
     const img = e.currentTarget;
     if (!img) return;
 
-    const maxRetries = options.maxRetries || 2;
-    const delayMs = options.delayMs || 1800;
+    // If already set to default placeholder and that fails, hide element
+    if (img.src === DEFAULT_PLACEHOLDER_IMAGE || img.dataset.failedPlaceholder === 'true') {
+        img.style.display = 'none';
+        if (img.nextElementSibling) {
+            img.nextElementSibling.classList.remove('hidden');
+        }
+        if (typeof options.onFallback === 'function') {
+            options.onFallback();
+        }
+        return;
+    }
+
+    const maxRetries = options.maxRetries || 1;
+    const delayMs = options.delayMs || 1500;
     const currentRetry = parseInt(img.dataset.retryCount || '0', 10);
 
     if (currentRetry < maxRetries) {
@@ -46,11 +65,17 @@ export const handleImageError = (e, options = {}) => {
         return;
     }
 
-    // Exhausted retries: hide broken <img> and reveal sibling fallback container if present
-    img.style.display = 'none';
-    if (img.nextElementSibling) {
-        img.nextElementSibling.classList.remove('hidden');
+    // Exhausted retries: switch to placeholder or reveal sibling fallback container
+    img.dataset.failedPlaceholder = 'true';
+    if (options.usePlaceholder !== false) {
+        img.src = DEFAULT_PLACEHOLDER_IMAGE;
+    } else {
+        img.style.display = 'none';
+        if (img.nextElementSibling) {
+            img.nextElementSibling.classList.remove('hidden');
+        }
     }
+
     if (typeof options.onFallback === 'function') {
         options.onFallback();
     }
