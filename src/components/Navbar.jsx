@@ -100,9 +100,10 @@ export default function Navbar() {
         const handleRefresh = () => void fetchAllNotifications();
         window.addEventListener('notifications:refresh', handleRefresh);
 
+        // Poll every 45 seconds as fallback to live WebSockets
         const interval = setInterval(() => {
             void fetchAllNotifications();
-        }, 15000);
+        }, 45000);
 
         return () => {
             clearInterval(interval);

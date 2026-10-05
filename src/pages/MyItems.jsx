@@ -272,9 +272,10 @@ export default function MyItems() {
 
     useEffect(() => {
         if (!activeChatItem?.itemId) return;
+        // Fallback polling for chat messages every 15s (WebSocket handles instant push)
         const interval = setInterval(() => {
             void fetchChatMessages(activeChatItem.itemId, true);
-        }, 4000);
+        }, 15000);
         return () => clearInterval(interval);
     }, [activeChatItem?.itemId]);
 

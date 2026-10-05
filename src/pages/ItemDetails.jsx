@@ -121,8 +121,8 @@ export default function ItemDetails() {
 
                         const cids = [...new Set(itemClaims.map((c) => c.claimantId).filter(Boolean))];
                         setActiveClaimantIds(cids);
-                        if (cids.length > 0 && !selectedClaimantId) {
-                            setSelectedClaimantId(cids[0]);
+                        if (cids.length > 0) {
+                            setSelectedClaimantId((prev) => prev || cids[0]);
                         }
                     } catch {
                         // non-fatal
@@ -135,7 +135,7 @@ export default function ItemDetails() {
         } finally {
             setLoading(false);
         }
-    }, [id, currentUserId, isAdmin, selectedClaimantId]);
+    }, [id, currentUserId, isAdmin]);
 
     useEffect(() => {
         window.scrollTo(0, 0);
