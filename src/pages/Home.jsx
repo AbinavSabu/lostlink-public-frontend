@@ -46,11 +46,11 @@ const CATEGORIES = [
     { value: 'OTHER', label: 'Other Items', icon: MoreHorizontal }
 ];
 
-export default function Home() {
-    const [items, setItems] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('');
+// In-memory stale-while-revalidate cache for instant navigation & tab switching
+const itemsCache = new Map();
+const CACHE_STALE_MS = 60000; // 60 seconds
 
+export default function Home() {
     // Multi-factor Filters & Sorting
     const [searchTerm, setSearchTerm] = useState('');
     const [debouncedSearch, setDebouncedSearch] = useState('');
@@ -61,6 +61,16 @@ export default function Home() {
     const [withPhotoOnly, setWithPhotoOnly] = useState(false);
     const [inDeskOnly, setInDeskOnly] = useState(false);
     const [sortBy, setSortBy] = useState('newest'); // 'newest', 'oldest', 'title'
+
+    // Compute initial cache key for default view
+    const initialCacheKey = JSON.stringify({});
+    const initialCached = itemsCache.get(initialCacheKey);
+
+    // Initial state hydrates immediately from memory if available
+    const [items, setItems] = useState(() => initialCached?.data || []);
+    const [loading, setLoading] = useState(() => !initialCached);
+    const [isRevalidating, setIsRevalidating] = useState(false);
+    const [error, setError] = useState('');
 
     // Voice search state
     const [isListening, setIsListening] = useState(false);
@@ -77,23 +87,47 @@ export default function Home() {
         return () => clearTimeout(handler);
     }, [searchTerm]);
 
-    // Fetch items whenever debouncedSearch, category, or status changes
+    // Fetch items with Stale-While-Revalidate caching
     const fetchItems = useCallback(async () => {
-        setLoading(true);
+        const params = {};
+        if (debouncedSearch.trim()) params.keyword = debouncedSearch.trim();
+        if (category) params.category = category;
+        if (status) params.status = status;
+
+        const cacheKey = JSON.stringify(params);
+        const cached = itemsCache.get(cacheKey);
+        const now = Date.now();
+
+        if (cached) {
+            // Immediately display cached items without showing skeleton
+            setItems(cached.data);
+            setLoading(false);
+
+            // If cache is fresh (< 60s), avoid background re-fetch
+            if (now - cached.timestamp < CACHE_STALE_MS) {
+                return;
+            }
+            setIsRevalidating(true);
+        } else {
+            setLoading(true);
+        }
+
         setError('');
         try {
-            const params = {};
-            if (debouncedSearch.trim()) params.keyword = debouncedSearch.trim();
-            if (category) params.category = category;
-            if (status) params.status = status;
-
             const res = await api.get('/items', { params });
             const list = res.data.content || res.data || [];
-            setItems(Array.isArray(list) ? list : []);
+            const safeList = Array.isArray(list) ? list : [];
+
+            // Store in cache
+            itemsCache.set(cacheKey, { data: safeList, timestamp: Date.now() });
+            setItems(safeList);
         } catch {
-            setError('Unable to load listings. Please check your connection and try again.');
+            if (!cached) {
+                setError('Unable to load listings. Please check your connection and try again.');
+            }
         } finally {
             setLoading(false);
+            setIsRevalidating(false);
         }
     }, [debouncedSearch, category, status]);
 
