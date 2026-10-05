@@ -1,6 +1,6 @@
 import { QRCodeSVG } from 'qrcode.react';
 import { X, Printer, Phone, Calendar, MapPin, Tag, Award, Building2, Scissors } from 'lucide-react';
-import { getImageUrl } from '../utils/ImageUrl';
+import { getImageUrl } from '../utils/imageUrl';
 
 export default function PrintableFlyerModal({ item, isOpen, onClose }) {
     if (!isOpen || !item) return null;
