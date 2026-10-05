@@ -48,8 +48,8 @@ export default function Login() {
     };
 
     return (
-        <div className="min-h-[82vh] flex items-center justify-center px-4 sm:px-6 lg:px-8 py-12">
-            <div className="w-full max-w-md bg-white/95 backdrop-blur-md rounded-3xl shadow-soft-lg border border-slate-200/90 p-8 sm:p-10 space-y-6">
+        <div className="min-h-[82vh] w-full max-w-full flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+            <div className="w-full max-w-md mx-auto bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl shadow-soft-lg border border-slate-200/90 dark:border-slate-800 p-6 sm:p-10 space-y-6">
                 {/* Brand header */}
                 <div className="text-center space-y-2">
                     <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-emerald-500 flex items-center justify-center text-white mx-auto shadow-soft">

@@ -225,9 +225,9 @@ export default function Navbar() {
     const isActive = (path) => location.pathname === path;
 
     return (
-        <header className="sticky top-0 z-50 bg-white/85 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 transition-colors">
+        <header className="sticky top-0 z-50 w-full max-w-full overflow-x-hidden bg-white/85 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 transition-colors">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="h-16 flex items-center justify-between gap-3 sm:gap-4">
+                <div className="h-16 flex items-center justify-between gap-2 sm:gap-4">
                     {/* Brand Logo */}
                     <Link to="/" className="flex items-center gap-2.5 group">
                         <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-emerald-500 flex items-center justify-center text-white shadow-soft group-hover:scale-105 transition-transform">
@@ -299,12 +299,12 @@ export default function Navbar() {
                     </button>
 
                     {/* Right Hand Controls */}
-                    <div className="flex items-center gap-1.5 sm:gap-3">
+                    <div className="flex items-center gap-1 sm:gap-2">
                         {/* QR Code Tag Scanner Button */}
                         <button
                             type="button"
                             onClick={() => window.dispatchEvent(new CustomEvent('open-qr-scanner'))}
-                            className="p-2 sm:p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
+                            className="hidden sm:flex p-2 sm:p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
                             title="Scan QR Tag or Flyer"
                         >
                             <QrCode className="w-5 h-5" />
@@ -314,7 +314,7 @@ export default function Navbar() {
                         <button
                             type="button"
                             onClick={toggleTheme}
-                            className="p-2 sm:p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
+                            className="hidden sm:flex p-2 sm:p-2.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-all"
                             title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`}
                         >
                             {theme === 'dark' ? (
@@ -530,7 +530,7 @@ export default function Navbar() {
                                 </div>
                             </>
                         ) : (
-                            <div className="flex items-center gap-2">
+                            <div className="hidden md:flex items-center gap-2">
                                 <Link
                                     to="/login"
                                     className="text-xs font-bold text-slate-700 hover:text-indigo-600 px-3 py-2 rounded-xl transition"
@@ -561,8 +561,42 @@ export default function Navbar() {
                 {/* Mobile Navigation Drawer */}
                 {mobileMenuOpen && (
                     <div className="md:hidden py-3 border-t border-slate-200/80 space-y-2 animate-in slide-in-from-top-2 duration-150">
+                        {/* Mobile Quick Action Strip (QR Scanner & Theme Toggle) */}
+                        <div className="flex items-center justify-between px-3 py-1.5 bg-slate-50 dark:bg-slate-800/60 rounded-xl mb-2">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setMobileMenuOpen(false);
+                                    window.dispatchEvent(new CustomEvent('open-qr-scanner'));
+                                }}
+                                className="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-200 hover:text-indigo-600"
+                            >
+                                <QrCode className="w-4 h-4 text-indigo-500" />
+                                <span>Scan QR Code</span>
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={toggleTheme}
+                                className="flex items-center gap-1.5 text-xs font-bold text-slate-700 dark:text-slate-200"
+                            >
+                                {theme === 'dark' ? (
+                                    <>
+                                        <Sun className="w-4 h-4 text-amber-400" />
+                                        <span>Light</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Moon className="w-4 h-4 text-indigo-600" />
+                                        <span>Dark</span>
+                                    </>
+                                )}
+                            </button>
+                        </div>
+
                         <Link
                             to="/"
+                            onClick={() => setMobileMenuOpen(false)}
                             className={`block px-3 py-2 rounded-xl text-sm font-semibold ${
                                 isActive('/') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-700 hover:bg-slate-100'
                             }`}
@@ -574,6 +608,7 @@ export default function Navbar() {
                             <>
                                 <Link
                                     to="/my-items"
+                                    onClick={() => setMobileMenuOpen(false)}
                                     className={`block px-3 py-2 rounded-xl text-sm font-semibold ${
                                         isActive('/my-items') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-700 hover:bg-slate-100'
                                     }`}
@@ -582,12 +617,14 @@ export default function Navbar() {
                                 </Link>
                                 <Link
                                     to="/create-item"
+                                    onClick={() => setMobileMenuOpen(false)}
                                     className="block px-3 py-2 rounded-xl text-sm font-bold text-emerald-700 bg-emerald-50 hover:bg-emerald-100"
                                 >
                                     + Report Lost or Found Item
                                 </Link>
                                 <Link
                                     to="/notifications"
+                                    onClick={() => setMobileMenuOpen(false)}
                                     className={`block px-3 py-2 rounded-xl text-sm font-semibold ${
                                         isActive('/notifications') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-700 hover:bg-slate-100'
                                     }`}
@@ -596,6 +633,7 @@ export default function Navbar() {
                                 </Link>
                                 <Link
                                     to="/profile"
+                                    onClick={() => setMobileMenuOpen(false)}
                                     className={`block px-3 py-2 rounded-xl text-sm font-semibold ${
                                         isActive('/profile') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-700 hover:bg-slate-100'
                                     }`}
@@ -606,6 +644,7 @@ export default function Navbar() {
                                 {isAdmin && (
                                     <Link
                                         to="/admin"
+                                        onClick={() => setMobileMenuOpen(false)}
                                         className="block px-3 py-2 rounded-xl text-sm font-bold text-indigo-700 bg-indigo-50 hover:bg-indigo-100"
                                     >
                                         Moderator Dashboard
@@ -626,15 +665,17 @@ export default function Navbar() {
                             <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100">
                                 <Link
                                     to="/login"
+                                    onClick={() => setMobileMenuOpen(false)}
                                     className="text-center py-2 text-sm font-bold text-slate-700 bg-slate-100 rounded-xl"
                                 >
                                     Sign In
                                 </Link>
                                 <Link
                                     to="/register"
+                                    onClick={() => setMobileMenuOpen(false)}
                                     className="text-center py-2 text-sm font-bold text-white bg-indigo-600 rounded-xl"
                                 >
-                                    Register
+                                    Get Started
                                 </Link>
                             </div>
                         )}
