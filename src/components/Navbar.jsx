@@ -61,6 +61,21 @@ export default function Navbar() {
         navigate('/login');
     };
 
+    const handleBrowse = (e) => {
+        if (e) e.preventDefault();
+        setMobileMenuOpen(false);
+        if (location.pathname !== '/') {
+            navigate('/#items');
+        } else {
+            const el = document.getElementById('items') || document.getElementById('browse-section') || document.getElementById('catalog');
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+            } else {
+                window.scrollTo({ top: 400, behavior: 'smooth' });
+            }
+        }
+    };
+
     const fetchAllNotifications = useCallback(async () => {
         if (!token || !parsedUser) {
             setSystemNotifications([]);
@@ -594,15 +609,15 @@ export default function Navbar() {
                             </button>
                         </div>
 
-                        <Link
-                            to="/"
-                            onClick={() => setMobileMenuOpen(false)}
-                            className={`block px-3 py-2 rounded-xl text-sm font-semibold ${
-                                isActive('/') ? 'bg-indigo-50 text-indigo-600' : 'text-slate-700 hover:bg-slate-100'
+                        <button
+                            type="button"
+                            onClick={handleBrowse}
+                            className={`w-full text-left block px-3 py-2.5 rounded-xl text-sm font-semibold cursor-pointer touch-manipulation transition ${
+                                isActive('/') ? 'bg-indigo-50 text-indigo-600 font-bold' : 'text-slate-700 hover:bg-slate-100'
                             }`}
                         >
                             Browse Listings
-                        </Link>
+                        </button>
 
                         {token ? (
                             <>

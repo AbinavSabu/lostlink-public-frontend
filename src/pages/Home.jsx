@@ -135,6 +135,16 @@ export default function Home() {
         void fetchItems();
     }, [fetchItems]);
 
+    // Handle hash scroll when navigated to /#items from other pages
+    useEffect(() => {
+        if (window.location.hash === '#items' || window.location.hash === '#browse-section') {
+            setTimeout(() => {
+                const el = document.getElementById('items') || document.getElementById('browse-section');
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
+    }, []);
+
     const handleClearFilters = () => {
         setSearchTerm('');
         setDebouncedSearch('');
@@ -316,14 +326,21 @@ export default function Home() {
                     <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
                         <Link
                             to="/create-item"
-                            className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold shadow-soft hover:shadow-glow-primary transition-all active:scale-95"
+                            className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold shadow-soft hover:shadow-glow-primary transition-all active:scale-95 cursor-pointer touch-manipulation"
                         >
                             <PlusCircle className="w-4 h-4" />
                             <span>Report a Missing or Found Item</span>
                         </Link>
                         <a
-                            href="#browse-section"
-                            className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300/80 dark:border-slate-700 text-sm font-bold shadow-soft transition-all"
+                            href="#items"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                const el = document.getElementById('items') || document.getElementById('browse-section');
+                                if (el) {
+                                    el.scrollIntoView({ behavior: 'smooth' });
+                                }
+                            }}
+                            className="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 border border-slate-300/80 dark:border-slate-700 text-sm font-bold shadow-soft transition-all cursor-pointer touch-manipulation"
                         >
                             <span>Browse Catalog</span>
                             <ArrowRight className="w-4 h-4" />
@@ -353,7 +370,7 @@ export default function Home() {
             </section>
 
             {/* Main Listings Section */}
-            <main id="browse-section" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10">
+            <main id="items" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 scroll-mt-20">
                 {/* Search & Control Bar */}
                 <div className="bg-white/95 dark:bg-slate-900/95 backdrop-blur-md rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-soft p-4 sm:p-5 mb-8 space-y-4">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
